@@ -1,0 +1,74 @@
+﻿<Window x:Class="DesktopChatFlat.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DesktopChatFlat"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0">Conversation History</Label>
+            <ListBox 
+                Grid.Row="1" 
+                ItemsSource="{Binding Conversations}"
+                SelectedValue="{Binding SelectedConversation}"
+                DisplayMemberPath="CreatedAt"/>
+            <Button Grid.Row="2">New Conversation</Button>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+                <RowDefinition Height="150"/>
+            </Grid.RowDefinitions>
+            <ComboBox 
+                Grid.Row="0"
+                IsEditable="False"
+                ItemsSource="{Binding UserNames}"
+                SelectedValue="{Binding SelectedUserName}"
+                />
+            <Label Grid.Row="1">Conversation:</Label>
+            <TextBlock Grid.Row="2"  Text="{Binding ConversationText}"/>
+
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0">Message:</Label>
+                <TextBox x:Name="messageTextBox" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
+                <Button Grid.Row="2" Grid.Column="1" Content="Send" Click="Button_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="IsEnabled" Value="True"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text, ElementName=messageTextBox}" Value="">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+
+        </Grid>
+    </Grid>
+</Window>
